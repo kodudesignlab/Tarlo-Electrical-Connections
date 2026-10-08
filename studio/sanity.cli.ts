@@ -8,6 +8,7 @@ export default defineCliConfig({
   // Hosted at https://tarlo.sanity.studio after `npm run deploy`
   studioHost: 'tarlo',
   deployment: {
+    appId: 'fo8xutup0hohg1nok4xl7169',
     autoUpdates: true,
   },
 })
