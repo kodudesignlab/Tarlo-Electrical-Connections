@@ -37,6 +37,8 @@
   --radius: 16px;
   --max: 1512px;
   --header-h: 84px;
+  --bar-h: 54px;      /* yellow info bar */
+  --hero-max: 1200px; /* hero + bar stop growing past this on very tall screens */
 
   /* Motion — every transition uses these */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);        /* soft ease-out (expo-ish) */
@@ -214,7 +216,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   position: relative; overflow: hidden;
   margin-top: calc(-1 * var(--header-h));
   padding-top: var(--header-h);
-  min-height: clamp(720px, 100svh, 980px);
+  /* Hero + yellow bar fill the screen, so the bar sits on the bottom edge.
+     Floored for short screens, capped for very tall ones. */
+  min-height: clamp(620px, calc(100svh - var(--bar-h)), calc(var(--hero-max) - var(--bar-h)));
   display: flex; flex-direction: column;
   --mx: 50%; --my: 42%; --r: 380px; --glow: 0.4;
 }
@@ -245,7 +249,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   position: relative; z-index: 1; width: 100%;
   flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 24px; text-align: center;
-  padding-block: clamp(48px, 6vw, 96px) clamp(80px, 8vw, 128px);
+  /* Content is centred in the space; padding is only a minimum gap */
+  padding-block: 32px 56px;
 }
 .hero h1 {
   margin: 0; max-width: 914px;
@@ -288,9 +293,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ---------- Info bar marquee ---------- */
 
-.infobar { background: var(--tarlo-yellow); overflow: hidden; }
+.infobar { height: var(--bar-h); background: var(--tarlo-yellow); overflow: hidden; }
 .marquee {
-  display: flex; width: max-content; padding-block: 16px;
+  display: flex; align-items: center; width: max-content; height: 100%;
   font-size: var(--label-lg); font-weight: 500; line-height: 1.4;
   letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap;
   animation: marquee 48s linear infinite;
@@ -588,6 +593,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
     --section: 64px;
     --content-gap: 28px;
     --header-h: 68px;
+    --bar-h: 42px;
     --h1: clamp(38px, 10.5vw, 48px);
     --h2: clamp(34px, 9.5vw, 44px);
     --h6: 20px;
@@ -614,7 +620,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .steps::-webkit-scrollbar, .review-index::-webkit-scrollbar { display: none; }
 
   /* Hero */
-  .hero { min-height: 0; }
+  .hero { min-height: clamp(560px, calc(100svh - var(--bar-h)), 900px); }
   .hero__content { padding-block: 40px 64px; gap: 18px; }
   .hero__dots { background-size: 28px 28px; background-position: 14px 14px; }
   .faces { margin-bottom: 8px; }
@@ -624,7 +630,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .trust { gap: 6px 16px; font-size: 13px; }
 
   /* Info bar */
-  .marquee { padding-block: 12px; font-size: 13px; animation-duration: 36s; }
+  .marquee { font-size: 13px; animation-duration: 36s; }
   .marquee__group { gap: 24px; padding-right: 24px; }
 
   /* Services: 2-up bento */
