@@ -20,27 +20,91 @@
   nav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-  /* Hero: dot grid revealed around the mouse (touch keeps the soft static glow) */
+  /* Hero: dot grid revealed around the mouse.
+     Position and intensity are eased every frame (lerp) so the glow glides
+     after the cursor instead of snapping. Touch keeps the soft static glow. */
   const hero = document.querySelector('[data-hero]');
   if (hero && !reduceMotion) {
-    let raf = 0, x = 0, y = 0;
-    const paint = () => {
-      raf = 0;
-      hero.style.setProperty('--mx', x + 'px');
-      hero.style.setProperty('--my', y + 'px');
+    const rest = { x: 0.5, y: 0.42 };          // resting spot (fraction of hero)
+    const cur = { x: 0, y: 0, g: 0.4 };
+    const target = { x: 0, y: 0, g: 0.4 };
+    let raf = 0;
+    const place = () => {
+      const r = hero.getBoundingClientRect();
+      return { w: r.width, h: r.height, left: r.left, top: r.top };
     };
+    const init = () => {
+      const { w, h } = place();
+      cur.x = target.x = w * rest.x;
+      cur.y = target.y = h * rest.y;
+      paint();
+    };
+    const paint = () => {
+      hero.style.setProperty('--mx', cur.x.toFixed(1) + 'px');
+      hero.style.setProperty('--my', cur.y.toFixed(1) + 'px');
+      hero.style.setProperty('--glow', cur.g.toFixed(3));
+    };
+    const tick = () => {
+      const k = 0.12;   // follow speed: lower = floatier
+      cur.x += (target.x - cur.x) * k;
+      cur.y += (target.y - cur.y) * k;
+      cur.g += (target.g - cur.g) * 0.08;
+      paint();
+      const settled = Math.abs(target.x - cur.x) < 0.3 && Math.abs(target.y - cur.y) < 0.3 && Math.abs(target.g - cur.g) < 0.002;
+      raf = settled ? 0 : requestAnimationFrame(tick);
+    };
+    const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
     hero.addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') return;
-      const r = hero.getBoundingClientRect();
-      x = e.clientX - r.left;
-      y = e.clientY - r.top;
-      hero.classList.add('is-active');
-      if (!raf) raf = requestAnimationFrame(paint);
+      const { left, top } = place();
+      target.x = e.clientX - left;
+      target.y = e.clientY - top;
+      target.g = 1;
+      wake();
     });
-    hero.addEventListener('pointerleave', () => hero.classList.remove('is-active'));
+    hero.addEventListener('pointerleave', () => {
+      const { w, h } = place();
+      target.x = w * rest.x;
+      target.y = h * rest.y;
+      target.g = 0.4;
+      wake();
+    });
+    window.addEventListener('resize', init, { passive: true });
+    init();
   }
 
-  /* Scroll reveal */
+  /* Eased anchor scrolling (smoother than the browser default) */
+  const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const scrollOffset = () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey) return;
+    const id = a.getAttribute('href');
+    const el = id === '#top' ? document.body : document.querySelector(id);
+    if (!el) return;
+    e.preventDefault();
+    const to = id === '#top' ? 0 : el.getBoundingClientRect().top + window.scrollY - scrollOffset() + 1;
+    const from = window.scrollY;
+    const dist = to - from;
+    if (reduceMotion || Math.abs(dist) < 2) { window.scrollTo(0, to); }
+    else {
+      const dur = Math.min(1400, Math.max(600, Math.abs(dist) * 0.45));
+      const t0 = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, (now - t0) / dur);
+        window.scrollTo(0, from + dist * easeInOutCubic(t));
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+    history.replaceState(null, '', id);
+  });
+
+  /* Scroll reveal, with a small stagger for cards in the same grid */
+  document.querySelectorAll('.bento, .steps').forEach((group) => {
+    [...group.querySelectorAll('[data-reveal]')].forEach((el, i) => el.style.setProperty('--d', `${i * 0.06}s`));
+  });
   const revealEls = document.querySelectorAll('[data-reveal], .photo');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
@@ -79,7 +143,7 @@
         meta.textContent = t.dataset.meta;
         count.textContent = `${pad(current + 1)} / ${pad(tabs.length)}`;
         feature.classList.remove('is-swapping');
-      }, reduceMotion ? 0 : 220);
+      }, reduceMotion ? 0 : 260);
       // Keep the active name visible when the name row is a horizontal swiper (mobile)
       const row = tabs[current].closest('.review-index');
       if (row.scrollWidth > row.clientWidth) {
