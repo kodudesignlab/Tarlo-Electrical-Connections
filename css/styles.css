@@ -195,14 +195,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
   /* Tall, near full-screen hero on desktop */
   min-height: clamp(760px, 100svh, 1100px);
   display: flex; flex-direction: column;
-  --mx: 72%; --my: 46%; --r: 260px;
+  --mx: 72%; --my: 46%; --r: 312px;
 }
 .hero__bg { position: absolute; inset: 0; pointer-events: none; }
 .hero__dots {
   background-image: radial-gradient(circle, var(--text-primary) 1.1px, transparent 1.6px);
   background-size: 32px 32px; background-position: 16px 16px;
 }
-.hero__dots--base { opacity: 0.05; }
+.hero__dots--base { opacity: 0.07; }
 .hero__dots--glow {
   opacity: 0.4; transition: opacity .5s ease;
   -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), rgba(0,0,0,.45) 0%, rgba(0,0,0,.15) 50%, transparent 100%);
