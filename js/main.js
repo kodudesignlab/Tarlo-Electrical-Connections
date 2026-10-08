@@ -14,12 +14,13 @@
   const setMenu = (open) => {
     toggle.setAttribute('aria-expanded', String(open));
     nav.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
   };
   toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
   nav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-  /* Hero: dot grid revealed around the pointer */
+  /* Hero: dot grid revealed around the mouse (touch keeps the soft static glow) */
   const hero = document.querySelector('[data-hero]');
   if (hero && !reduceMotion) {
     let raf = 0, x = 0, y = 0;
@@ -29,6 +30,7 @@
       hero.style.setProperty('--my', y + 'px');
     };
     hero.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
       const r = hero.getBoundingClientRect();
       x = e.clientX - r.left;
       y = e.clientY - r.top;
@@ -78,7 +80,26 @@
         count.textContent = `${pad(current + 1)} / ${pad(tabs.length)}`;
         feature.classList.remove('is-swapping');
       }, reduceMotion ? 0 : 220);
+      // Keep the active name visible when the name row is a horizontal swiper (mobile)
+      const row = tabs[current].closest('.review-index');
+      if (row.scrollWidth > row.clientWidth) {
+        const li = tabs[current].parentElement;
+        const pad0 = parseFloat(getComputedStyle(row).paddingLeft) || 0;
+        row.scrollTo({ left: li.offsetLeft - row.offsetLeft - pad0, behavior: reduceMotion ? 'auto' : 'smooth' });
+      }
     };
+
+    // Swipe the quote left/right on touch screens
+    let startX = 0, startY = 0;
+    feature.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    feature.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) show(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
 
     tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
     reviews.querySelector('[data-review-prev]').addEventListener('click', () => show(current - 1));
