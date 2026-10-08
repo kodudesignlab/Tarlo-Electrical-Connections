@@ -20,34 +20,27 @@
   nav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-  /* Hero: dot grid revealed around the mouse.
+  /* Interactive dot grid (hero + contact): revealed around the mouse.
      Position and intensity are eased every frame (lerp) so the glow glides
      after the cursor instead of snapping. Touch keeps the soft static glow. */
-  const hero = document.querySelector('[data-hero]');
-  if (hero && !reduceMotion) {
-    const rest = { x: 0.5, y: 0.42 };          // resting spot (fraction of hero)
+  const dotField = (el) => {
+    const rest = { x: 0.5, y: 0.42 };          // resting spot (fraction of section)
     const cur = { x: 0, y: 0, g: 0.4 };
     const target = { x: 0, y: 0, g: 0.4 };
     let raf = 0;
-    const place = () => {
-      const r = hero.getBoundingClientRect();
-      return { w: r.width, h: r.height, left: r.left, top: r.top };
-    };
-    const init = () => {
-      const { w, h } = place();
-      cur.x = target.x = w * rest.x;
-      cur.y = target.y = h * rest.y;
-      paint();
-    };
     const paint = () => {
-      hero.style.setProperty('--mx', cur.x.toFixed(1) + 'px');
-      hero.style.setProperty('--my', cur.y.toFixed(1) + 'px');
-      hero.style.setProperty('--glow', cur.g.toFixed(3));
+      el.style.setProperty('--mx', cur.x.toFixed(1) + 'px');
+      el.style.setProperty('--my', cur.y.toFixed(1) + 'px');
+      el.style.setProperty('--glow', cur.g.toFixed(3));
+    };
+    const toRest = () => {
+      target.x = el.offsetWidth * rest.x;
+      target.y = el.offsetHeight * rest.y;
+      target.g = 0.4;
     };
     const tick = () => {
-      const k = 0.12;   // follow speed: lower = floatier
-      cur.x += (target.x - cur.x) * k;
-      cur.y += (target.y - cur.y) * k;
+      cur.x += (target.x - cur.x) * 0.12;      // follow speed: lower = floatier
+      cur.y += (target.y - cur.y) * 0.12;
       cur.g += (target.g - cur.g) * 0.08;
       paint();
       const settled = Math.abs(target.x - cur.x) < 0.3 && Math.abs(target.y - cur.y) < 0.3 && Math.abs(target.g - cur.g) < 0.002;
@@ -55,24 +48,20 @@
     };
     const wake = () => { if (!raf) raf = requestAnimationFrame(tick); };
 
-    hero.addEventListener('pointermove', (e) => {
+    el.addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') return;
-      const { left, top } = place();
-      target.x = e.clientX - left;
-      target.y = e.clientY - top;
+      const r = el.getBoundingClientRect();
+      target.x = e.clientX - r.left;
+      target.y = e.clientY - r.top;
       target.g = 1;
       wake();
     });
-    hero.addEventListener('pointerleave', () => {
-      const { w, h } = place();
-      target.x = w * rest.x;
-      target.y = h * rest.y;
-      target.g = 0.4;
-      wake();
-    });
+    el.addEventListener('pointerleave', () => { toRest(); wake(); });
+    const init = () => { toRest(); cur.x = target.x; cur.y = target.y; cur.g = target.g; paint(); };
     window.addEventListener('resize', init, { passive: true });
     init();
-  }
+  };
+  if (!reduceMotion) document.querySelectorAll('[data-dots]').forEach(dotField);
 
   /* Eased anchor scrolling (smoother than the browser default) */
   const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);

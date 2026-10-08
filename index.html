@@ -36,10 +36,10 @@
 <main>
 
   <!-- Hero -->
-  <section class="hero" id="top" data-hero>
-    <div class="hero__bg hero__tint" aria-hidden="true"></div>
-    <div class="hero__bg hero__dots hero__dots--base" aria-hidden="true"></div>
-    <div class="hero__bg hero__dots hero__dots--glow" aria-hidden="true"></div>
+  <section class="hero" id="top" data-hero data-dots>
+    <div class="dots-bg hero__tint" aria-hidden="true"></div>
+    <div class="dots-bg dots dots--base" aria-hidden="true"></div>
+    <div class="dots-bg dots dots--glow" aria-hidden="true"></div>
     <div class="container hero__content">
       <ul class="faces" aria-label="Harry on the job">
         <li><img src="assets/images/hero-1.jpg" alt="Stripping wires at the bench" width="104" height="104" style="object-position: 40% 60%"></li>
@@ -215,15 +215,15 @@
     </div>
   </section>
 
-  <!-- Service area -->
+  <!-- Service area (centred) -->
   <section class="section section--grey">
-    <div class="container split">
-      <div class="split__a section-head__title" data-reveal>
+    <div class="container">
+      <div class="center-head" data-reveal>
         <p class="eyebrow">Service area</p>
         <h2 class="h2">Where I work</h2>
-        <p class="lede" style="margin-top:8px">Based in Brookvale, covering Manly to Palm Beach and greater Sydney. Not sure if you're covered? Just ask.</p>
+        <p class="lede">Based in Brookvale, covering Manly to Palm Beach and greater Sydney. Not sure if you're covered? Just ask.</p>
       </div>
-      <ul class="split__b areas" data-reveal>
+      <ul class="areas areas--center" data-reveal>
         <li>Manly</li><li>Fairlight</li><li>Freshwater</li><li>Curl Curl</li><li>Brookvale</li><li>Dee Why</li><li>Collaroy</li><li>Narrabeen</li><li>Frenchs Forest</li><li>Mona Vale</li><li>Newport</li><li>Avalon</li><li>Palm Beach</li>
       </ul>
     </div>
@@ -267,7 +267,9 @@
   </section>
 
   <!-- Contact -->
-  <section class="section section--yellow" id="contact">
+  <section class="section section--yellow has-dots" id="contact" data-dots>
+    <div class="dots-bg dots dots--base" aria-hidden="true"></div>
+    <div class="dots-bg dots dots--glow" aria-hidden="true"></div>
     <div class="container split">
       <div class="split__a contact__text" data-reveal>
         <div>
