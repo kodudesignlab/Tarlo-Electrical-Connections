@@ -63,6 +63,39 @@
   };
   if (!reduceMotion) document.querySelectorAll('[data-dots]').forEach(dotField);
 
+  /* Trust-bar marquee: enough copies to cover any screen, shift by exactly one
+     copy, constant speed regardless of width (no gap / jump on wide screens). */
+  const marquee = document.querySelector('.marquee');
+  if (marquee) {
+    const SPEED = 34; // px per second (10% quicker than the original 48s loop)
+    const first = marquee.querySelector('.marquee__group');
+    const setup = () => {
+      marquee.querySelectorAll('.marquee__group[data-clone]').forEach((c) => c.remove());
+      const w = first.getBoundingClientRect().width;
+      if (!w) return;
+      // first + clones must be at least screen width + one group
+      const copies = Math.ceil((window.innerWidth + w) / w);
+      for (let i = 1; i < copies; i++) {
+        const c = first.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        c.dataset.clone = '';
+        marquee.appendChild(c);
+      }
+      marquee.style.setProperty('--marquee-shift', `-${w}px`);
+      marquee.style.setProperty('--marquee-dur', `${(w / SPEED).toFixed(2)}s`);
+    };
+    // the static second copy in the HTML becomes a clone we manage
+    marquee.querySelectorAll('.marquee__group[aria-hidden="true"]').forEach((g) => (g.dataset.clone = ''));
+    let rt, lastW = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (window.innerWidth === lastW) return; // ignore mobile address-bar height changes
+      lastW = window.innerWidth;
+      clearTimeout(rt); rt = setTimeout(setup, 150);
+    }, { passive: true });
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(setup);
+    setup();
+  }
+
   /* Eased anchor scrolling (smoother than the browser default) */
   const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
   const scrollOffset = () => parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
