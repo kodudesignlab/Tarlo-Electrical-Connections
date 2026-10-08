@@ -17,7 +17,7 @@
   --button-text: #212124;
 
   /* Type */
-  --font: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font: var(--font-geist), "Geist", ui-sans-serif, system-ui, sans-serif;
   --h1: clamp(56px, 8.6vw, 136px);
   --h2: clamp(44px, 4.8vw, 72px);
   --h6: clamp(22px, 2vw, 30px);

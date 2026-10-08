@@ -1,9 +1,0 @@
-{
-  "name": "tarlo-website",
-  "version": "0.1.0",
-  "private": true,
-  "description": "Tarlo Electrical Connections — static marketing site",
-  "scripts": {
-    "dev": "npx --yes serve . -l 3000"
-  }
-}
