@@ -133,7 +133,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .pill img, .pill svg { transition: transform var(--t-fast) var(--ease); }
 .pill--lg { min-height: 48px; padding: 0 20px; }
-.pill--outline { background: transparent; border-color: var(--neutral-300); }
+.pill--outline { background: var(--white); border-color: var(--neutral-300); }
 .pill--ghost { background: var(--white); border-color: var(--text-primary); color: var(--text-primary); }
 .pill--dark { background: var(--text-primary); color: var(--white); }
 .pill--icon { width: 52px; height: 52px; padding: 0; }
