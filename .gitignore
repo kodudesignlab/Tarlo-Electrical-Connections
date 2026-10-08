@@ -2,9 +2,3 @@
 node_modules/
 .vercel/
 .env*
-.next/
-next-env.d.ts
-*.tsbuildinfo
-studio/dist/
-studio/.sanity/
-studio/seed/content.ndjson
