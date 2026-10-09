@@ -234,8 +234,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .dots--base { opacity: 0.1; }
 .dots--glow {
   opacity: var(--glow);
-  -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 50%, transparent 100%);
-  mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 50%, transparent 100%);
+  mask-image: radial-gradient(circle var(--r) at var(--mx) var(--my), rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 50%, transparent 100%);
+}
+/* Bigger dots on the same grid, only in a tight circle under the cursor,
+   so the dots closest to the mouse swell. Hidden at rest (--glow 0.4 -> 0). */
+.dots--grow {
+  background-image: radial-gradient(circle, var(--text-primary) 2.3px, transparent 2.8px);
+  opacity: calc((var(--glow) - 0.4) / 0.6);
+  -webkit-mask-image: radial-gradient(circle calc(var(--r) * 0.42) at var(--mx) var(--my), rgba(0,0,0,.6) 0%, rgba(0,0,0,.28) 45%, transparent 100%);
+  mask-image: radial-gradient(circle calc(var(--r) * 0.42) at var(--mx) var(--my), rgba(0,0,0,.6) 0%, rgba(0,0,0,.28) 45%, transparent 100%);
 }
 /* Dots sit a touch lighter on the yellow so the section stays bright */
 .section--yellow .dots--base { opacity: 0.08; }
