@@ -154,9 +154,15 @@
     const pad = (n) => String(n).padStart(2, '0');
     let current = 0;
 
+    const items = tabs.map((t) => t.parentElement);
+
     const show = (i) => {
       current = (i + tabs.length) % tabs.length;
       tabs.forEach((t, j) => t.setAttribute('aria-selected', String(j === current)));
+      // Restart the fill timer on the newly active line
+      items.forEach((li) => li.classList.remove('is-active'));
+      void items[current].offsetWidth;
+      items[current].classList.add('is-active');
       const t = tabs[current];
       feature.classList.add('is-swapping');
       setTimeout(() => {
@@ -186,6 +192,29 @@
       const dy = e.changedTouches[0].clientY - startY;
       if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) show(current + (dx < 0 ? 1 : -1));
     }, { passive: true });
+
+    /* Autoplay: when the active line finishes filling, move to the next review.
+       Pauses on hover / keyboard focus and while the section is off-screen. */
+    items[current].classList.add('is-active');
+    if (!reduceMotion && tabs.length > 1) {
+      reviews.classList.add('is-auto');
+      const holds = new Set();
+      const hold = (why, on) => {
+        on ? holds.add(why) : holds.delete(why);
+        reviews.classList.toggle('is-paused', holds.size > 0);
+      };
+      reviews.addEventListener('animationend', (e) => {
+        if (e.animationName === 'rev-fill' && e.target === items[current]) show(current + 1);
+      });
+      reviews.addEventListener('mouseenter', () => hold('hover', true));
+      reviews.addEventListener('mouseleave', () => hold('hover', false));
+      reviews.addEventListener('focusin', () => hold('focus', true));
+      reviews.addEventListener('focusout', (e) => { if (!reviews.contains(e.relatedTarget)) hold('focus', false); });
+      if ('IntersectionObserver' in window) {
+        hold('offscreen', true);
+        new IntersectionObserver(([entry]) => hold('offscreen', !entry.isIntersecting), { threshold: 0.35 }).observe(reviews);
+      }
+    }
 
     tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
     reviews.querySelector('[data-review-prev]').addEventListener('click', () => show(current - 1));
