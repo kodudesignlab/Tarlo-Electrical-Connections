@@ -23,8 +23,8 @@ assets/             logo, favicon, Lucide icons from Figma, images/harry.jpg
 
 ## Before launch
 
-- Replace the placeholders in square brackets: `[PHONE]`, `[EMAIL]`, `[HOURS]`, `[ABN]`, the Google rating and three FAQ answers.
-- **The four reviews are made-up samples.** Swap them for real Google reviews (with permission) before launch.
+- Replace the placeholders in square brackets: `[PHONE]`, `[EMAIL]`, `[HOURS]`, `[ABN]`, and three FAQ answers.
+- **The four reviews are made-up samples.** Harry will add real reviews from his own clients (with their permission) before launch.
 - Licence No. `123456C` is a placeholder from the Figma file.
 - Connect the contact form, for example with Formspree or a Vercel serverless function using Resend. It only shows a thank-you message at the moment.
 - Swap `assets/images/harry.jpg` for a real photo of Harry (it's a stand-in, 500×750).
