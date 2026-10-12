@@ -711,9 +711,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .footer-base { flex-direction: column; }
 }
 
-/* ---------- Small phones (400px and below) ---------- */
+/* ---------- Small phones (500px and below) ---------- */
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   :root { --h1: 36px; }
 }
 
