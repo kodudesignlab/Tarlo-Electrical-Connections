@@ -711,6 +711,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .footer-base { flex-direction: column; }
 }
 
+/* ---------- Small phones (400px and below) ---------- */
+
+@media (max-width: 400px) {
+  :root { --h1: 36px; }
+}
+
 /* ---------- Scroll reveal (staggered via --d set in main.js) ---------- */
 
 /* A one-shot animation (not a transition) so it never overrides an element's
