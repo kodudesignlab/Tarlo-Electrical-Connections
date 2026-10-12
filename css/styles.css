@@ -119,10 +119,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .pill {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  min-height: 44px; padding: 0 18px;
+  min-height: 40px; padding: 0 16px;          /* Figma "Phat": 10px × 16px, 40px tall */
   border: 1px solid transparent; border-radius: 999px;
   background: var(--tarlo-yellow); color: var(--button-text);
-  font-size: var(--label-md); font-weight: 500; letter-spacing: 0.0125em;
+  font-size: var(--label-md); font-weight: 500; line-height: 20px; letter-spacing: 0.175px;
   text-decoration: none; cursor: pointer;
   transition:
     background-color var(--t-fast) var(--ease),
@@ -132,7 +132,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
     transform var(--t-fast) var(--ease);
 }
 .pill img, .pill svg { transition: transform var(--t-fast) var(--ease); }
-.pill--lg { min-height: 48px; padding: 0 20px; }
+.pill--lg { min-height: 40px; }
+/* Text roll (Figma "button text flex container"): the label is stacked twice
+   in a 20px window; on hover both slide up so the copy rolls into place. */
+.pill__roll { display: block; height: 20px; overflow: hidden; }
+.pill__roll > span { display: block; transition: transform var(--t) var(--ease); }
+.actions .pill--outline { min-width: 134px; }
 .pill--outline { background: var(--white); border-color: var(--neutral-300); }
 .pill--ghost { background: var(--white); border-color: var(--text-primary); color: var(--text-primary); }
 .pill--dark { background: var(--text-primary); color: var(--white); }
@@ -578,7 +583,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* ---------- Hover (mouse / trackpad only — never sticks on touch) ---------- */
 
 @media (hover: hover) and (pointer: fine) {
-  .pill:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35); }
+  .pill:hover .pill__roll > span { transform: translateY(-100%); }
   .pill:hover img, .pill:hover svg { transform: translateX(3px); }
   .pill--outline:hover { border-color: var(--text-primary); }
   .pill--ghost:hover { background: var(--text-primary); color: var(--white); }
@@ -650,7 +655,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .faces { margin-bottom: 8px; }
   .faces li { width: 76px; height: 76px; border-width: 3px; margin-right: -12px; }
   .actions { width: 100%; }
-  .actions .pill { flex: 1 1 0; min-height: 52px; }
+  .actions .pill { flex: 1 1 0; min-height: 48px; }
   .trust { gap: 6px 16px; font-size: 13px; }
 
   /* Info bar */

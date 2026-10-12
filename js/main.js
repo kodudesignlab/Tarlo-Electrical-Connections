@@ -2,6 +2,22 @@
 (() => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* Pill buttons: wrap the label for the hover text-roll (two stacked copies) */
+  document.querySelectorAll('.pill:not(.pill--icon)').forEach((pill) => {
+    const textNode = [...pill.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
+    if (!textNode) return;
+    const label = textNode.textContent.trim();
+    const roll = document.createElement('span');
+    roll.className = 'pill__roll';
+    const a = document.createElement('span');
+    a.textContent = label;
+    const b = document.createElement('span');
+    b.textContent = label;
+    b.setAttribute('aria-hidden', 'true');
+    roll.append(a, b);
+    pill.replaceChild(roll, textNode);
+  });
+
   /* Header: compact + blurred once scrolled */
   const header = document.querySelector('[data-header]');
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 24);
