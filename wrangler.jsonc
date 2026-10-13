@@ -1,7 +1,10 @@
 // Cloudflare: serve the Astro build output (dist/) as a static site.
 {
-  "name": "tarlo-website",
+  "name": "tarlo-electrical-connections",
   "compatibility_date": "2026-10-01",
+  // Free public link: tarlo-electrical-connections.<account>.workers.dev
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": "./dist"
   }
