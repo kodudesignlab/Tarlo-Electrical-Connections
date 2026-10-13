@@ -1,0 +1,16 @@
+---
+import { nav } from '../data/site';
+---
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a class="brand" href="#top" aria-label="Tarlo Electrical Connections, home">
+      <img src="/assets/tarlo-logo-black.svg" alt="Tarlo" width="179" height="32">
+      <span class="brand__tag">Electrical<br>Connections</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav" data-menu-toggle><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main" data-nav>
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a class="pill" href="#contact">Get a quote</a>
+    </nav>
+  </div>
+</header>

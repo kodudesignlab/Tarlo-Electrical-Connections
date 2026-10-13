@@ -1,0 +1,20 @@
+---
+import { services } from '../data/site';
+---
+<section class="section section--grey" id="services">
+  <div class="container">
+    <div class="center-head" data-reveal>
+      <h2 class="h2">Our Services</h2>
+      <p class="lede">Homes and small commercial. Tap a service to start a quote.</p>
+    </div>
+    <div class="bento">
+      {services.map((s) => (
+        <a class="bento__card" href="#contact" data-service={s.name} data-reveal>
+          <img class="bento__icon" src={`/assets/icons/${s.icon}.svg`} width="26" height="26" alt="">
+          <p class="bento__name">{s.name}</p>
+          <span class="bento__go" aria-hidden="true"><img src="/assets/icons/arrows.svg" width="14" height="14" alt=""></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

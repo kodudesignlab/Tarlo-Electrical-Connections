@@ -1,0 +1,29 @@
+---
+import { faqs } from '../data/site';
+---
+<section class="section" id="faq">
+  <div class="container">
+    <div class="center-head" data-reveal>
+      <h2 class="h2">Frequently Asked Questions</h2>
+      <p class="lede">Still unsure? Get in contact with us today! Send a photo of the job and I'll tell you straight whether it's a quick fix or a bigger one.</p>
+      <div class="actions"><a class="pill pill--lg" href="#contact">Contact us today</a></div>
+    </div>
+    <div class="faq" data-reveal data-faq>
+      {faqs.map((f, i) => {
+        const open = i === 0;
+        const id = `faq-${i + 1}`;
+        return (
+          <div class:list={['faq__item', { 'is-open': open }]}>
+            <h3 style="margin:0">
+              <button class="faq__q" type="button" aria-expanded={open ? 'true' : 'false'} aria-controls={id}>
+                <span class="faq__text">{f.q}</span>
+                <span class="faq__icon"><img src="/assets/icons/plus.svg" width="44" height="44" alt=""></span>
+              </button>
+            </h3>
+            <div class="faq__panel" id={id} role="region"><div><p>{f.a}</p></div></div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

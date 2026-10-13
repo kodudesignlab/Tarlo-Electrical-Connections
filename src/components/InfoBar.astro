@@ -1,0 +1,14 @@
+---
+import { infoBar } from '../data/site';
+// main.js adds more copies as needed so the loop is seamless at any width.
+---
+<div class="infobar">
+  <div class="marquee">
+    <ul class="marquee__group">
+      {infoBar.map((item) => <><li>{item}</li><li aria-hidden="true">/</li></>)}
+    </ul>
+    <ul class="marquee__group" aria-hidden="true">
+      {infoBar.map((item) => <><li>{item}</li><li>/</li></>)}
+    </ul>
+  </div>
+</div>

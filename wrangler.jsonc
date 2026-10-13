@@ -1,0 +1,8 @@
+// Cloudflare: serve the Astro build output (dist/) as a static site.
+{
+  "name": "tarlo-website",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}

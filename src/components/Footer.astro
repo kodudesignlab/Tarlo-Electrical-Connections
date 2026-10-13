@@ -1,0 +1,19 @@
+---
+import { business, telHref } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-cols">
+      <div><h2>Tarlo</h2><span>{business.owner}, licensed electrician</span><span>{business.base}, Northern Beaches</span></div>
+      <nav aria-label="Footer"><h2>Site</h2><a href="#services">Services</a><a href="#about">About</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a></nav>
+      <div><h2>Contact</h2><a href={telHref(business.phone)}>{business.phone}</a><a href={`mailto:${business.email}`}>{business.email}</a><a href={business.instagram}>Instagram</a></div>
+      <div><h2>Details</h2><span>Licence No. {business.licence}</span><span>ABN {business.abn}</span><span>Fully insured</span></div>
+    </div>
+    <img class="footer-logo" src="/assets/tarlo-logo-white.svg" alt="" width="1819" height="325" loading="lazy">
+    <div class="footer-base">
+      <span>© <span data-year>{year}</span> {business.name}</span>
+      <a href="#top">Back to top</a>
+    </div>
+  </div>
+</footer>

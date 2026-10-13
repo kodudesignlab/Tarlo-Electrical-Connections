@@ -1,9 +1,15 @@
 {
   "name": "tarlo-website",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Tarlo Electrical Connections — static marketing site",
+  "type": "module",
+  "description": "Tarlo Electrical Connections — marketing site (Astro, static)",
   "scripts": {
-    "dev": "npx --yes serve . -l 3000"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.3.8"
   }
 }

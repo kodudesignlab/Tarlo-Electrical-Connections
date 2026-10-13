@@ -1,0 +1,42 @@
+---
+import { reviews } from '../data/site';
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const first = reviews[0];
+const meta = (r: (typeof reviews)[number]) => `${r.suburb} · ${r.job}`;
+---
+<section class="section" id="reviews">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div class="section-head__title">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h2">Word around the Beaches</h2>
+      </div>
+    </div>
+    <div class="reviews" data-reveal data-reviews>
+      <figure class="review-feature" data-review-feature>
+        <div>
+          <svg width="56" height="44" viewBox="0 0 56 44" aria-hidden="true"><path d="M0 44V24C0 10 7 2 22 0v8c-7 2-10 6-10 14h10v22H0Zm34 0V24c0-14 7-22 22-24v8c-7 2-10 6-10 14h10v22H34Z" fill="#FEC20E"/></svg>
+          <blockquote aria-live="polite" data-review-quote>{first.quote}</blockquote>
+        </div>
+        <div class="review-feature__foot">
+          <figcaption><strong data-review-name>{first.name}</strong> <span class="review-feature__meta">— <span data-review-meta>{meta(first)}</span></span></figcaption>
+          <div class="review-feature__controls">
+            <span class="review-feature__count" data-review-count>01 / {pad(reviews.length)}</span>
+            <button class="pill pill--ghost pill--icon" type="button" aria-label="Previous review" data-review-prev><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+            <button class="pill pill--icon" type="button" aria-label="Next review" data-review-next><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </figure>
+      <ol class="review-index" role="tablist" aria-label="Reviews">
+        {reviews.map((r, i) => (
+          <li>
+            <button class="review-tab" type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-quote={r.quote} data-name={r.name} data-meta={meta(r)}>
+              <span class="review-tab__num">{pad(i + 1)}</span><span class="review-tab__name">{r.name}</span><span class="review-tab__meta">{r.suburb}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

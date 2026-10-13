@@ -1,0 +1,15 @@
+---
+import { areas } from '../data/site';
+---
+<section class="section section--grey">
+  <div class="container">
+    <div class="center-head" data-reveal>
+      <p class="eyebrow">Service area</p>
+      <h2 class="h2">Where I work</h2>
+      <p class="lede">Based in Brookvale, covering Manly to Palm Beach and greater Sydney. Not sure if you're covered? Just ask.</p>
+    </div>
+    <ul class="areas areas--center" data-reveal>
+      {areas.map((a) => <li>{a}</li>)}
+    </ul>
+  </div>
+</section>
