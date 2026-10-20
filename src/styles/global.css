@@ -720,9 +720,24 @@ button, input, select, textarea { font: inherit; color: inherit; }
   .form__foot .pill { width: 100%; }
 
   /* Footer */
-  .footer-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 16px; font-size: 15px; }
+  /* Contact first (full width), then Site | Details, then Tarlo */
+  .footer-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "contact contact" "site details" "tarlo tarlo";
+    gap: 36px 20px; font-size: 15px;
+  }
+  .footer-col--contact { grid-area: contact; padding-bottom: 32px; border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
+  .footer-col--site { grid-area: site; }
+  .footer-col--details { grid-area: details; }
+  .footer-col--tarlo { grid-area: tarlo; padding-top: 28px; border-top: 1px solid rgba(255, 255, 255, 0.15); }
+  .footer-cols > div, .footer-cols > nav { gap: 4px; }
+  .footer-cols h2 { margin-bottom: 8px; }
+  .footer-cols a { display: block; padding: 6px 0; overflow-wrap: anywhere; }
+  .footer-col--contact .footer-phone { font-size: 28px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
+  .footer-col--contact a:not(.footer-phone) { font-size: 17px; }
+  .footer-col--details span, .footer-col--tarlo span { padding: 2px 0; }
   .footer-logo { margin-top: 48px; }
-  .footer-base { flex-direction: column; }
+  .footer-base { flex-direction: row; align-items: center; justify-content: space-between; font-size: 13px; }
 }
 
 /* ---------- Small phones (500px and below) ---------- */
