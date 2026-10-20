@@ -41,8 +41,7 @@ Cloudflare builds from the GitHub repo on every push to `main`.
 
 ## Before launch
 
-- Replace the placeholders in `src/data/site.ts`: `[PHONE]`, `[EMAIL]`, `[HOURS]`, `[ABN]`, and three FAQ answers.
+- Confirm the example suburb lists in `areaGroups` (`src/data/site.ts`) with Harry.
 - **The four reviews are made-up samples.** Harry will add real reviews from his own clients (with their permission) before launch.
-- Licence No. `123456C` is a placeholder from the Figma file.
-- Connect the contact form, for example with Formspree or a Cloudflare Worker using Resend. It only shows a thank-you message at the moment.
+- Connect the contact form to service@tarloelectrical.com.au, for example with Formspree or a Cloudflare Worker using Resend. It only shows a thank-you message at the moment.
 - Swap `public/assets/images/harry.jpg` for a real photo of Harry (it's a stand-in, 500×750).

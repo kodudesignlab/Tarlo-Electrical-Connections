@@ -1,15 +1,22 @@
 ---
-import { areas } from '../data/site';
+import { areaGroups } from '../data/site';
 ---
 <section class="section section--grey">
   <div class="container">
     <div class="center-head" data-reveal>
       <p class="eyebrow">Service area</p>
       <h2 class="h2">Where I work</h2>
-      <p class="lede">Based in Brookvale, covering Manly to Palm Beach and greater Sydney. Not sure if you're covered? Just ask.</p>
+      <p class="lede">Everything across the Northern Beaches, plus the eastern suburbs and lower north shore. Not sure if you're covered? Just ask.</p>
     </div>
-    <ul class="areas areas--center" data-reveal>
-      {areas.map((a) => <li>{a}</li>)}
-    </ul>
+    <div class="area-groups" data-reveal>
+      {areaGroups.map((g) => (
+        <div class="area-group">
+          <h3 class="area-group__title">{g.region}</h3>
+          <ul class="areas areas--center">
+            {g.suburbs.map((a) => <li>{a}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
   </div>
 </section>

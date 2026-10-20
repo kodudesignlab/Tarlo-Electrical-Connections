@@ -5,13 +5,16 @@ import { services } from '../data/site';
   <div class="container">
     <div class="center-head" data-reveal>
       <h2 class="h2">Our Services</h2>
-      <p class="lede">Homes and small commercial. Tap a service to start a quote.</p>
+      <p class="lede">Mainly homes, with commercial experience too. Free quotes on everything. Tap a service to start yours.</p>
     </div>
     <div class="bento">
       {services.map((s) => (
         <a class="bento__card" href="#contact" data-service={s.name} data-reveal>
           <img class="bento__icon" src={`/assets/icons/${s.icon}.svg`} width="26" height="26" alt="">
-          <p class="bento__name">{s.name}</p>
+          <div class="bento__text">
+            <p class="bento__name">{s.name}</p>
+            <p class="bento__desc">{s.desc}</p>
+          </div>
           <span class="bento__go" aria-hidden="true"><img src="/assets/icons/arrows.svg" width="14" height="14" alt=""></span>
         </a>
       ))}

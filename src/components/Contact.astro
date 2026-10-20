@@ -1,6 +1,6 @@
 ---
 import DotField from './DotField.astro';
-import { business, services, telHref } from '../data/site';
+import { business, services, telHref, smsHref } from '../data/site';
 
 const chips = [...services.map((s) => s.name), 'Something else'];
 ---
@@ -11,16 +11,17 @@ const chips = [...services.map((s) => s.name), 'Something else'];
       <div>
         <p class="eyebrow">Contact</p>
         <h2 class="h2">Let's sort it out.</h2>
-        <p class="lede">Tell me about the job and I'll get back to you the same day. Photos help — I can often price straight off them.</p>
+        <p class="lede">Call, text or send the form. I'm available 24/7 for emergencies, and quotes are always free. Photos help: I can often price straight off them.</p>
       </div>
       <dl class="details">
-        <div><dt>Phone</dt><dd><a href={telHref(business.phone)}>{business.phone}</a></dd></div>
+        <div><dt>Call</dt><dd><a href={telHref(business.phone)}>{business.phone}</a></dd></div>
+        <div><dt>Text</dt><dd><a href={smsHref(business.phone)}>{business.phone}</a></dd></div>
         <div><dt>Email</dt><dd><a href={`mailto:${business.email}`}>{business.email}</a></dd></div>
         <div><dt>Hours</dt><dd>{business.hours}</dd></div>
         <div><dt>Area</dt><dd>{business.area}</dd></div>
       </dl>
     </div>
-    <!-- Not wired to a backend yet: connect it (e.g. Formspree, or a Cloudflare Worker + Resend) before launch. -->
+    <!-- Not wired to a backend yet: connect it (e.g. Formspree, or a Cloudflare Worker + Resend) to service@tarloelectrical.com.au before launch. -->
     <form class="split__b form" data-form data-reveal novalidate>
       <fieldset class="form__full">
         <legend>What do you need? <span>Pick any</span></legend>
@@ -35,7 +36,7 @@ const chips = [...services.map((s) => s.name), 'Something else'];
       <label class="field">Suburb<input type="text" name="suburb" autocomplete="address-level2"></label>
       <label class="field form__full">About the job<textarea name="message" rows="5"></textarea></label>
       <div class="form__full form__foot">
-        <span class="form__note" data-form-note aria-live="polite">No call-out fee for quoted work.</span>
+        <span class="form__note" data-form-note aria-live="polite">Quotes are always free.</span>
         <button class="pill pill--lg pill--dark" type="submit">Send enquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
       </div>
     </form>
