@@ -566,6 +566,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 }
 .form__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 .form__note { font-size: 14px; opacity: 0.8; transition: opacity var(--t-fast) var(--ease); }
+.form__trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.form.is-sending [type="submit"] { opacity: 0.6; cursor: progress; }
 
 /* ---------- Footer ---------- */
 

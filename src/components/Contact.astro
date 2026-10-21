@@ -1,6 +1,6 @@
 ---
 import DotField from './DotField.astro';
-import { business, services, telHref, smsHref } from '../data/site';
+import { business, services, telHref, smsHref, web3formsKey } from '../data/site';
 
 const chips = [...services.map((s) => s.name), 'Something else'];
 ---
@@ -21,8 +21,13 @@ const chips = [...services.map((s) => s.name), 'Something else'];
         <div><dt>Area</dt><dd>{business.area}</dd></div>
       </dl>
     </div>
-    <!-- Not wired to a backend yet: connect it (e.g. Formspree, or a Cloudflare Worker + Resend) to service@tarloelectrical.com.au before launch. -->
-    <form class="split__b form" data-form data-reveal novalidate>
+    <!-- Sent via Web3Forms to service@tarloelectrical.com.au (main.js submits it with fetch; the action is the no-JS fallback). -->
+    <form class="split__b form" data-form data-phone={business.phone} data-reveal novalidate action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value={web3formsKey}>
+      <input type="hidden" name="subject" value="New enquiry from the Tarlo website">
+      <input type="hidden" name="from_name" value="Tarlo website">
+      <!-- Spam trap: real people never see or fill this -->
+      <input type="checkbox" name="botcheck" class="form__trap" tabindex="-1" autocomplete="off" aria-hidden="true">
       <fieldset class="form__full">
         <legend>What do you need? <span>Pick any</span></legend>
         <div class="chips" data-chips>

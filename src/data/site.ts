@@ -14,6 +14,10 @@ export const business = {
   yearsInBusiness: 3,
 };
 
+// Web3Forms access key for the contact form. Enquiries are emailed to
+// service@tarloelectrical.com.au. Public by design: it can only send to that inbox.
+export const web3formsKey = '5fcd512e-e3ce-49b4-b43b-ff1f672e28ef';
+
 /** "0432 818 359" -> "tel:0432818359" */
 export const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, '') || phone}`;
 /** Text message link */

@@ -278,21 +278,43 @@
     });
   });
 
-  /* Form: placeholder submit until a backend is connected */
+  /* Form: sends via Web3Forms, which emails the enquiry to Harry */
   const form = document.querySelector('[data-form]');
   const note = document.querySelector('[data-form-note]');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('[type="submit"]');
+    const defaultNote = note.textContent;
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!form.checkValidity()) {
         note.textContent = 'Please add your name and phone number.';
         form.reportValidity();
         return;
       }
-      note.textContent = "Thanks — Harry will be in touch the same day.";
-      form.reset();
-      chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
-      syncChips();
+      const data = Object.fromEntries(new FormData(form));
+      if (data.email) data.replyto = data.email; // replying to the email goes to the customer
+      form.classList.add('is-sending');
+      submitBtn.disabled = true;
+      note.textContent = 'Sending…';
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (!res.ok || json.success === false) throw new Error(json.message || res.statusText);
+        note.textContent = 'Thanks! Harry will be in touch shortly.';
+        form.reset();
+        chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
+        syncChips();
+        setTimeout(() => { note.textContent = defaultNote; }, 10000);
+      } catch (err) {
+        note.textContent = `Sorry, that didn't send. Please call or text ${form.dataset.phone || 'Harry'} instead.`;
+      } finally {
+        form.classList.remove('is-sending');
+        submitBtn.disabled = false;
+      }
     });
   }
 

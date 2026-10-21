@@ -31,6 +31,10 @@ wrangler.jsonc          Cloudflare config: serve dist/ as static files
 
 Most edits only touch `src/data/site.ts`. For example, add a review to the `reviews` list and it appears in the slider with its own timer line, or add a suburb to `areas`.
 
+## Contact form
+
+Sent with [Web3Forms](https://web3forms.com): each enquiry is emailed to service@tarloelectrical.com.au, and replying goes straight to the customer. The access key is `web3formsKey` in `src/data/site.ts`.
+
 ## Deploy (Cloudflare)
 
 Cloudflare builds from the GitHub repo on every push to `main`.
@@ -43,5 +47,4 @@ Cloudflare builds from the GitHub repo on every push to `main`.
 
 - Confirm the example suburb lists in `areaGroups` (`src/data/site.ts`) with Harry.
 - **The four reviews are made-up samples.** Harry will add real reviews from his own clients (with their permission) before launch.
-- Connect the contact form to service@tarloelectrical.com.au, for example with Formspree or a Cloudflare Worker using Resend. It only shows a thank-you message at the moment.
 - Swap `public/assets/images/harry.jpg` for a real photo of Harry (it's a stand-in, 500×750).
